@@ -8,6 +8,7 @@
     "dev:https": "node server/index.js --dev --https",
     "hermes-adapter": "node server/hermes-gateway-adapter.js",
     "demo-gateway": "node server/demo-gateway-adapter.js",
+    "paperclip-gateway": "node server/paperclip-gateway-adapter.js",
     "build": "next build",
     "start": "node server/index.js",
     "lint": "eslint .",

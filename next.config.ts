@@ -1,6 +1,14 @@
 import type { NextConfig } from "next";
 import path from "node:path";
 
+// Allow embedding Claw3D (e.g. inside the Paperclip "Office" tab) by setting
+// CLAW3D_FRAME_ANCESTORS to the parent origin(s), space-separated
+// (e.g. "http://localhost:5173"). Unset = same-origin only (default, secure).
+const FRAME_ANCESTORS = process.env.CLAW3D_FRAME_ANCESTORS?.trim() || "";
+const frameAncestorsDirective = FRAME_ANCESTORS
+  ? `frame-ancestors 'self' ${FRAME_ANCESTORS}`
+  : "frame-ancestors 'self'";
+
 const securityHeaders = [
   {
     key: "Content-Security-Policy",
@@ -8,7 +16,7 @@ const securityHeaders = [
       "default-src 'self'",
       "base-uri 'self'",
       "form-action 'self'",
-      "frame-ancestors 'self'",
+      frameAncestorsDirective,
       "img-src 'self' data: blob: http: https:",
       "font-src 'self' data: https:",
       "style-src 'self' 'unsafe-inline' https:",
@@ -48,6 +56,13 @@ const securityHeaders = [
     value: "same-origin",
   },
 ];
+
+if (FRAME_ANCESTORS) {
+  // X-Frame-Options cannot express a whitelist; when embedding is enabled, rely
+  // on the CSP frame-ancestors directive above and drop the SAMEORIGIN lock.
+  const idx = securityHeaders.findIndex((h) => h.key === "X-Frame-Options");
+  if (idx >= 0) securityHeaders.splice(idx, 1);
+}
 
 if (process.env.NODE_ENV === "production") {
   securityHeaders.push({
