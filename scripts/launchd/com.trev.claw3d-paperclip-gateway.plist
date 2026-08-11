@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Reference copy. The live agent is installed at
+  ~/Library/LaunchAgents/com.trev.claw3d-paperclip-gateway.plist
+  Install:  launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.trev.claw3d-paperclip-gateway.plist
+  Paths are machine-specific (/Users/trev, /opt/homebrew) — adjust per host.
+-->
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.trev.claw3d-paperclip-gateway</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/bin/bash</string>
+        <string>/Users/trev/claw3d/scripts/start-paperclip-gateway.sh</string>
+    </array>
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PATH</key>
+        <string>/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
+    </dict>
+    <key>RunAtLoad</key>
+    <true/>
+    <key>KeepAlive</key>
+    <true/>
+    <key>ThrottleInterval</key>
+    <integer>15</integer>
+    <key>WorkingDirectory</key>
+    <string>/Users/trev/claw3d</string>
+    <key>StandardOutPath</key>
+    <string>/Users/trev/claw3d/logs/paperclip-gateway.log</string>
+    <key>StandardErrorPath</key>
+    <string>/Users/trev/claw3d/logs/paperclip-gateway.err.log</string>
+</dict>
+</plist>
