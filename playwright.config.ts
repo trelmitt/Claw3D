@@ -3,6 +3,9 @@ import path from "node:path";
 export default defineConfig({
   testDir: "./tests/e2e",
   use: {
+    // System Chrome (auto-updated) instead of Playwright's bundled Chromium,
+    // which lags upstream security fixes.
+    channel: "chrome",
     baseURL: "http://127.0.0.1:3000",
   },
   webServer: {
